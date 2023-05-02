@@ -1,0 +1,6 @@
+S3bucketIAM:
+  Effect: Allow
+  Action:
+    - 's3:PutObject'
+    - 's3:getSignedUrlPromise'
+  Resource: 'arn:aws:s3:::${env:BUCKET_NAME}/*'

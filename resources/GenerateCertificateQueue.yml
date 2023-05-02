@@ -1,0 +1,14 @@
+GenerateCertificateQueue:
+  Type: AWS::SQS::Queue
+  Properties:
+    QueueName: ${self:custom.GenerateCertificateQueue.name}
+  
+Outputs:
+  GenerateCertificateQueueArn:
+    Value: ${self:custom.GenerateCertificateQueue.arn}
+    Export:
+      Name: ${self:custom.GenerateCertificateQueue.name}-Arn
+  GenerateCertificateQueueUrl:
+    Value: ${self:custom.GenerateCertificateQueue.url}
+    Export:
+      Name: ${self:custom.GenerateCertificateQueue.name}-Url

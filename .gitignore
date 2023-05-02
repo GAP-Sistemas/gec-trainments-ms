@@ -1,0 +1,17 @@
+# package directories
+node_modules
+jspm_packages
+
+# Serverless directories
+.serverless
+
+# Webpack directories
+.webpack
+
+# Environment variables file
+config.json
+config-dev.json
+config-prod.json
+config.dev.json
+config.prod.json
+.env
