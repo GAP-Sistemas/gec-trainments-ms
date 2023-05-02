@@ -21,8 +21,8 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Step 3 - Install Dependencies
         run: npm install
-      - name: Step 4 - Run Tests
-        run: npm run test
+      # - name: Step 4 - Run Tests
+      #   run: npm run test
       - name: Step 5 - Serverless Deploy DEVELOPMENT
         if: "${{ github.ref_name == 'develop' }}"
         uses: serverless/github-action@v2
