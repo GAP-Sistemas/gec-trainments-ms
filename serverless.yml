@@ -2,6 +2,9 @@ service: gec-trainments
 
 plugins:
   - serverless-esbuild
+  - serverless-dotenv-plugin
+
+useDotenv: true
 
 provider:
   name: aws
@@ -24,10 +27,10 @@ provider:
 
 resources:
   Resources:
-    GenerateCertificatesQueue: ${file(resources/GenerateCertificateQueue.yml):GenerateCertificateQueue}
+    GenerateCertificateQueue: ${file(resources/GenerateCertificateQueue.yml):GenerateCertificateQueue}
   Outputs:
-    GenerateCertificatesQueueArn: ${file(resources/GenerateCertificateQueue.yml):Outputs.GenerateCertificateQueueArn}
-    GenerateCertificatesQueueUrl: ${file(resources/GenerateCertificateQueue.yml):Outputs.GenerateCertificateQueueUrl}
+    GenerateCertificateQueueArn: ${file(resources/GenerateCertificateQueue.yml):Outputs.GenerateCertificateQueueArn}
+    GenerateCertificateQueueUrl: ${file(resources/GenerateCertificateQueue.yml):Outputs.GenerateCertificateQueueUrl}
 
 functions:
   generateCertificate:
