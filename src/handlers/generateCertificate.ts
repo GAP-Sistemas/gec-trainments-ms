@@ -86,6 +86,7 @@ const getTrainment = async (employeeId: ObjectId, trainmentId: ObjectId, tenantI
         "attendance.employee.cpf": 1,
         "attendance.signature.key": 1,
         "attendance.approved": 1,
+        "expirationDate": 1
       }
     }
   ];
@@ -94,6 +95,42 @@ const getTrainment = async (employeeId: ObjectId, trainmentId: ObjectId, tenantI
 
   return trainment;
 };
+
+const  getConvertedTime = (tempoTotalEmMilissegundos)=>  {
+  const milissegundosPorMinuto = 60000;
+  const milissegundosPorHora = 3600000;
+
+  const horas = Math.floor(tempoTotalEmMilissegundos / milissegundosPorHora);
+  const minutos = Math.floor((tempoTotalEmMilissegundos % milissegundosPorHora) / milissegundosPorMinuto);
+
+  let result = `${horas} horas`
+  
+  if (minutos !== 0) {
+    result += ` e ${minutos} minutos`
+  }
+
+  return result;
+}
+
+const getWorkload = (scheduledTime) => {
+  let totalTime = 0;
+
+  const to = new Date(scheduledTime.to);
+  const from = new Date(scheduledTime.from);
+  const intervalo = to.getTime() - from.getTime();
+  totalTime += intervalo;
+
+  return getConvertedTime(totalTime);
+}
+
+const getExpiration = (expirationDate) => {
+  let text = "Validade indeterminada"
+  if (expirationDate) {
+      const newExpirationDate = moment(expirationDate).format('DD/MM/YYYY');
+      text = `Válido até ${newExpirationDate}`
+  }
+  return text;
+}
 
 const signAndStructureData = async (trainmentInfo) => {
 
@@ -109,20 +146,26 @@ const signAndStructureData = async (trainmentInfo) => {
   
   
   const dataCreator = async () =>  {
+    const newFrom = moment(trainmentData.scheduledTime.from).format('DD/MM/YYYY');
+    const newTo = moment(trainmentData.scheduledTime.to).format('DD/MM/YYYY');
+    const scheduledTime = newFrom === newTo ? newFrom : `${newFrom} até ${newTo}`
+    const workload = getWorkload(trainmentData.scheduledTime);
+
     const data =  {
       employee: {
-      name: attendance[0].employee[0].name,
-      cpf: attendance[0].employee[0].cpf,
-      signature: attendance[0].signature[0].key ? await getSignedUrl(attendance[0].signature[0].key) : ''
-
+        name: attendance[0].employee[0].name,
+        cpf: attendance[0].employee[0].cpf,
+        signature: attendance[0].signature[0].key ? await getSignedUrl(attendance[0].signature[0].key) : '',
       },
-      instructors: await instructorsData(),
       trainment: {
         _id: trainmentData._id,
+        expirationDate: getExpiration(trainmentData.expirationDate),
         documentEmployee: trainmentData.documentEmployee[0].name,
         site: trainmentData.site[0].name,
-        scheduledTime: trainmentData.scheduledTime,
+        workload,
+        scheduledTime,
         description: trainmentData?.description ? trainmentData.description : null,
+        instructors: await instructorsData(),
       },
       tenant: {
         name: tenant[0].name,
@@ -133,7 +176,6 @@ const signAndStructureData = async (trainmentInfo) => {
   }
 
   return dataCreator();
-
 }
 
 const generateCertificate = async (event, context, callback) => {
