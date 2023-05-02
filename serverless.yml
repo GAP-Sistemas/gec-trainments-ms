@@ -19,7 +19,8 @@ provider:
     JSREPORT_CERTIFICATE_SHORT_ID: ${env:JSREPORT_CERTIFICATE_SHORT_ID}
   iamRoleStatements:
     - ${file(./iam/LambdaInvokeIAM.yml):LambdaInvokeIAM}
-    - ${file(./iam/GenerateFutureServicesQueueIAM.yml):GenerateCertificateQueueIAM}
+    - ${file(./iam/GenerateCertificateQueueIAM.yml):GenerateCertificateQueueIAM}
+    - ${file(./iam/S3bucketIAM.yml):S3bucketIAM}
 
 resources:
   Resources:
