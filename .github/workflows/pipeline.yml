@@ -33,6 +33,11 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           MONGO_URI: ${{ secrets.MONGO_URI_DEV }}
+          JSREPORT_USER: ${{ secrets.JSREPORT_USER }}
+          JSREPORT_PASSWORD: ${{ secrets.JSREPORT_PASSWORD }}
+          JSREPORT_URL: ${{ secrets.JSREPORT_URL }}
+          JSREPORT_CERTIFICATE_SHORT_ID: ${{ secrets.JSREPORT_CERTIFICATE_SHORT_ID }}
+          BUCKET_NAME: ${{ secrets.BUCKET_NAME_DEV }}
       - name: Step 5 - Serverless Deploy PRODUCTION
         if: "${{ github.ref_name == 'master' }}"
         uses: serverless/github-action@v2
@@ -43,3 +48,8 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           MONGO_URI: ${{ secrets.MONGO_URI_PROD }}
+          JSREPORT_USER: ${{ secrets.JSREPORT_USER }}
+          JSREPORT_PASSWORD: ${{ secrets.JSREPORT_PASSWORD }}
+          JSREPORT_URL: ${{ secrets.JSREPORT_URL }}
+          JSREPORT_CERTIFICATE_SHORT_ID: ${{ secrets.JSREPORT_CERTIFICATE_SHORT_ID }}
+          BUCKET_NAME: ${{ secrets.BUCKET_NAME_PROD }}
