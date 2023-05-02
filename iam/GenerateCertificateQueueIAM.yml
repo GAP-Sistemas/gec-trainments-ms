@@ -2,4 +2,4 @@ GenerateCertificateQueueIAM:
   Effect: Allow
   Action:
     - sqs:ReceiveMessage
-  Resource: ${self:custom.generateCertificateQueue.arn}
+  Resource: ${self:custom.GenerateCertificateQueue.arn}
