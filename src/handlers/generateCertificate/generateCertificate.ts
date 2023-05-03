@@ -20,7 +20,10 @@ const generateCertificate: SQSHandler = async (event: SQSEvent, context: Context
   
   const record = event.Records[0];
   const body = JSON.parse(record.body);
-  const { employeeId, trainmentId, tenantId } = body;
+  const { employeeId, trainmentId, tenantId } = body.data;
+  console.log("tenantId:", tenantId)
+  console.log("trainmentId:", trainmentId)
+  console.log("employeeId:", employeeId)
 
   // const tenantId = "5d49e06505d1aa3ed4fb4964";
   // const trainmentId = "643ecd37e879fd435ab33fe0";
@@ -29,11 +32,11 @@ const generateCertificate: SQSHandler = async (event: SQSEvent, context: Context
   
   try {
     const db = await connectToDatabase();
-      
+
     // GET TRAINMENT INVO
     const trainmentData = await getTrainment(new ObjectId(employeeId), new ObjectId(trainmentId), new ObjectId(tenantId), db);
     console.log("Data from aggregation:", trainmentData)
-  
+
     // STRUCTURE DATA AND SIGN PHOTOS
     const dataToCertificate = await signAndStructureData(trainmentData, getSignedUrl);
     console.log("structured and signed data:", dataToCertificate)
