@@ -16,18 +16,20 @@ interface Instructor {
 
 export const signAndStructureData = async (trainmentInfo: ITrainment, getSignedUrl: Function): Promise<IData> => {
 
-  const { attendance, tenant, instructors, ...trainmentData } = trainmentInfo
-
-  const instructorsData = async () => {
-    const instructorsData = await asyncMap(instructors, async (instructor: Instructor) => ({
-      name: instructor?.name ? instructor.name : '',
-      signature: instructor?.signature ? await getSignedUrl(instructor?.signature[0]?.key) : '',
-    }))
-    return instructorsData;
+  const instructorsData = async (instructorsData: Instructor[]) => {
+    const instructorsDataResult = await asyncMap(instructorsData, async (instructor: Instructor) => {
+      return {
+        name: instructor?.name ? instructor.name : '',
+        signature: instructor?.signature ? await getSignedUrl(instructor?.signature[0]?.key) : '',
+      }
+    })
+    return instructorsDataResult;
   }
   
   
-  const dataCreator = async () =>  {
+  const dataCreator = async (trainmentInfo: ITrainment) =>  {
+    const { attendance, tenant, instructors, ...trainmentData } = trainmentInfo
+
     const newFrom = moment(trainmentData.scheduledTime.from).locale('pt-br').format('DD/MMM/YYYY');
     const newTo = moment(trainmentData.scheduledTime.to).locale('pt-br').format('DD/MMM/YYYY');
     const scheduledTime = newFrom === newTo ? newFrom : `${newFrom} até ${newTo}`
@@ -47,7 +49,7 @@ export const signAndStructureData = async (trainmentInfo: ITrainment, getSignedU
         workload,
         scheduledTime,
         description: trainmentData?.description ? trainmentData.description : '',
-        instructors: instructors.length > 0 ? await instructorsData() : [],
+        instructors: instructors.length > 0 ? await instructorsData(instructors) : [],
       },
       tenant: {
         name: tenant[0]?.name ? tenant[0].name : '',
@@ -57,7 +59,7 @@ export const signAndStructureData = async (trainmentInfo: ITrainment, getSignedU
     return data;
   }
 
-  const result = await dataCreator()
+  const result = await dataCreator(trainmentInfo)
 
   return result;
 }
