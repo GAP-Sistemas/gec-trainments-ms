@@ -13,7 +13,6 @@ interface IFile {
 export const populateDatabase = async (db: Db, file: IFile, employeeId: string, trainmentId: string) => {
 
   const { insertedId } = await db.collection('files').insertOne(file)
-  console.log("🚀 ~ file: generateCertificate.ts:226 ~ generateCertificate ~ insertedId:", insertedId)
 
   const updateResult = await db.collection("employees").updateOne(
     { 

@@ -1,13 +1,10 @@
-import getSignedUrl from "../../utils/S3Tools/getSignedUrl";
 import { map as asyncMap } from "p-iteration";
 import moment from "moment";
 import 'moment/locale/pt-br';
-import {
-  getWorkload,
-  getExpiration,
-  IData
-} from "./index"
-import { ITrainment } from './getTrainment'
+import { getWorkload } from "./getWorkload";
+import { getExpiration } from "./getExpiration";
+import { IData } from "./generatePdf";
+import { ITrainment } from "./getTrainment";
 
 interface Instructor {
   name: string;
@@ -17,7 +14,7 @@ interface Instructor {
 
 
 
-export const signAndStructureData = async (trainmentInfo: ITrainment): Promise<IData> => {
+export const signAndStructureData = async (trainmentInfo: ITrainment, getSignedUrl: Function): Promise<IData> => {
 
   const { attendance, tenant, instructors, ...trainmentData } = trainmentInfo
 

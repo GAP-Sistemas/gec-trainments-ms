@@ -1,4 +1,5 @@
-import { getConvertedTime } from "./index"
+// import { getConvertedTime } from "./index"
+import { getConvertedTime } from './getConvertedTime';
 
 interface IScheduledDate {
   to: Date;

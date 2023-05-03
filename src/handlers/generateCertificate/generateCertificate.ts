@@ -3,12 +3,11 @@ import { SQSEvent, SQSHandler, Context, Callback } from 'aws-lambda';
 import { config } from 'dotenv';
 import { ObjectId } from 'mongodb';
 import putObject from "../../utils/S3Tools/putObject";
-import {
-  getTrainment,
-  signAndStructureData,
-  generatePdf,
-  populateDatabase
-} from "./index"
+import getSignedUrl from "../../utils/S3Tools/getSignedUrl";
+import { getTrainment } from "./getTrainment";
+import { signAndStructureData } from "./signAndStructureData";
+import { generatePdf } from "./generatePdf";
+import { populateDatabase } from "./populateDatabase";
 
 
 
@@ -23,7 +22,7 @@ const generateCertificate: SQSHandler = async (event: SQSEvent, context: Context
   const body = JSON.parse(record.body);
   const { employeeId, trainmentId, tenantId } = body;
 
-  // const tenantId = "5d49e06505d1aa3ed4fb4964"
+  // const tenantId = "5d49e06505d1aa3ed4fb4964";
   // const trainmentId = "643ecd37e879fd435ab33fe0";
   // const employeeId = "6398e4ae146ec20a48c9b475";
 
@@ -33,9 +32,11 @@ const generateCertificate: SQSHandler = async (event: SQSEvent, context: Context
       
     // GET TRAINMENT INVO
     const trainmentData = await getTrainment(new ObjectId(employeeId), new ObjectId(trainmentId), new ObjectId(tenantId), db);
+    console.log("Data from aggregation:", trainmentData)
   
     // STRUCTURE DATA AND SIGN PHOTOS
-    const dataToCertificate = await signAndStructureData(trainmentData);
+    const dataToCertificate = await signAndStructureData(trainmentData, getSignedUrl);
+    console.log("structured and signed data:", dataToCertificate)
   
     // GENERATE CERTIFICATES PDF IN JSREPORT  
     
@@ -43,6 +44,7 @@ const generateCertificate: SQSHandler = async (event: SQSEvent, context: Context
 
     // SAVE CERTIFICATE ON AWS BUCKET
     const uploadedResponse = await putObject(folder, name, bodyBuffer)
+    console.log("response from putObject to bucket:", uploadedResponse)
   
     const file = {
       tenant: new ObjectId(tenantId),
@@ -55,7 +57,7 @@ const generateCertificate: SQSHandler = async (event: SQSEvent, context: Context
   
     // POPULATE FILES WITH PDF AND RESPECTIVE EMPLOYEE.DOCUMENT WITH FILE ID
     const response = await populateDatabase(db, file, employeeId, trainmentId);
-    console.log("🚀 ~ file: generateCertificate.ts:58 ~ constgenerateCertificate:SQSHandler= ~ response:", response)
+    console.log("responses from database", response)
   
   } catch (err) {
     console.log(err)
@@ -68,4 +70,3 @@ const generateCertificate: SQSHandler = async (event: SQSEvent, context: Context
 }
 
 export const handler = generateCertificate;
-

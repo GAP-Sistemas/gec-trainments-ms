@@ -1,4 +1,3 @@
-
 import shortid from 'shortid';
 import jsReportLambda from '../../utils/jsreport-lambda';
 import moment from 'moment';
