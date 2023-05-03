@@ -35,6 +35,7 @@ resources:
 functions:
   generateCertificate:
     handler: src/handlers/generateCertificate/generateCertificate.handler
+    timeout: 20
     events:
       - sqs:
           arn: ${self:custom.GenerateCertificateQueue.arn}
