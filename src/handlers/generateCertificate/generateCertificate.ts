@@ -35,11 +35,11 @@ const generateCertificate: SQSHandler = async (event: SQSEvent, context: Context
 
     // GET TRAINMENT INVO
     const trainmentData = await getTrainment(new ObjectId(employeeId), new ObjectId(trainmentId), new ObjectId(tenantId), db);
-    console.log("Data from aggregation:", trainmentData)
+    console.log("DATA FROM AGGREGATION:", trainmentData)
 
     // STRUCTURE DATA AND SIGN PHOTOS
     const dataToCertificate = await signAndStructureData(trainmentData, getSignedUrl);
-    console.log("structured and signed data:", dataToCertificate)
+    console.log("STRUCTURED AND SIGNED DATA:", dataToCertificate)
   
     // GENERATE CERTIFICATES PDF IN JSREPORT  
     
@@ -47,7 +47,7 @@ const generateCertificate: SQSHandler = async (event: SQSEvent, context: Context
 
     // SAVE CERTIFICATE ON AWS BUCKET
     const uploadedResponse = await putObject(folder, name, bodyBuffer)
-    console.log("response from putObject to bucket:", uploadedResponse)
+    console.log("RESPONSE FROM PUT PDF IN THE BUCKET:", uploadedResponse)
   
     const file = {
       tenant: new ObjectId(tenantId),
@@ -60,7 +60,7 @@ const generateCertificate: SQSHandler = async (event: SQSEvent, context: Context
   
     // POPULATE FILES WITH PDF AND RESPECTIVE EMPLOYEE.DOCUMENT WITH FILE ID
     const response = await populateDatabase(db, file, employeeId, trainmentId);
-    console.log("responses from database", response)
+    console.log("RESPONSE FROM PUT DOCUMENTS IN DB", response)
   
   } catch (err) {
     console.log(err)
