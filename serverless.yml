@@ -14,7 +14,7 @@ provider:
   stage: ${opt:stage, 'dev'}
   environment:
     MONGO_URI: ${env:MONGO_URI}
-    REGION: ${env:BUCKET_REGION}
+    BUCKET_REGION: ${env:BUCKET_REGION}
     BUCKET_NAME: ${env:BUCKET_NAME}
     JSREPORT_USER: ${env:JSREPORT_USER}
     JSREPORT_PASSWORD: ${env:JSREPORT_PASSWORD}
