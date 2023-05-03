@@ -10,11 +10,11 @@ provider:
   name: aws
   runtime: nodejs14.x
   memorySize: 256
-  region: us-east-2
+  region: sa-east-1
   stage: ${opt:stage, 'dev'}
   environment:
     MONGO_URI: ${env:MONGO_URI}
-    REGION: ${self:provider.region}
+    REGION: ${env:BUCKET_REGION}
     BUCKET_NAME: ${env:BUCKET_NAME}
     JSREPORT_USER: ${env:JSREPORT_USER}
     JSREPORT_PASSWORD: ${env:JSREPORT_PASSWORD}
