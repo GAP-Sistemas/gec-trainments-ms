@@ -5,10 +5,10 @@ describe('signAndStructureData', () => {
   test('should return the expected data', async () => {
     const trainmentInfo = {
       _id: '1',
-      expirationDate: new Date('2022-05-03'),
+      expirationDate: new Date('2023-05-02T06:30:00.000Z'),
       documentEmployee: [{ name: 'document' }],
       site: [{ name: 'site' }],
-      scheduledTime: { to: new Date('2022-06-03'), from: new Date('2022-06-01') },
+      scheduledTime: { to: new Date('2023-05-02T06:30:00.000Z'), from: new Date('2023-05-02T06:00:00.000Z') },
       description: 'description',
       attendance: [{
         employee: [{ _id: '1', name: 'employee', cpf: '123.456.789-00' }],
@@ -34,11 +34,11 @@ describe('signAndStructureData', () => {
       },
       trainment: {
         _id: '1',
-        expirationDate: 'Válido até 02/mai/2022',
+        expirationDate: 'Válido até 02/mai/2023',
         documentEmployee: 'document',
         site: 'site',
-        workload: '48 horas',
-        scheduledTime: '31/mai/2022 até 02/jun/2022',
+        workload: '0 horas e 30 minutos',
+        scheduledTime: '02/mai/2023',
         description: 'description',
         instructors: [{
           name: 'instructor',
