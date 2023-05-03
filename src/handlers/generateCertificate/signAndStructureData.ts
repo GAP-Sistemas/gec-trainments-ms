@@ -20,7 +20,7 @@ export const signAndStructureData = async (trainmentInfo: ITrainment, getSignedU
     const instructorsDataResult = await asyncMap(instructorsData, async (instructor: Instructor) => {
       return {
         name: instructor?.name ? instructor.name : '',
-        signature: instructor?.signature ? await getSignedUrl(instructor?.signature[0]?.key) : '',
+        signature: instructor?.signature[0]?.key ? await getSignedUrl(instructor?.signature[0]?.key) : '',
       }
     })
     return instructorsDataResult;
