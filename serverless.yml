@@ -34,7 +34,7 @@ resources:
 
 functions:
   generateCertificate:
-    handler: src/handlers/generateCertificate.handler
+    handler: src/handlers/generateCertificate/generateCertificate.handler
     events:
       - sqs:
           arn: ${self:custom.GenerateCertificateQueue.arn}
