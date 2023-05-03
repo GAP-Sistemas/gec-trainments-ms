@@ -38,6 +38,9 @@ jobs:
           JSREPORT_URL: ${{ secrets.JSREPORT_URL }}
           JSREPORT_CERTIFICATE_SHORT_ID: ${{ secrets.JSREPORT_CERTIFICATE_SHORT_ID }}
           BUCKET_NAME: ${{ secrets.BUCKET_NAME_DEV }}
+          BUCKET_REGION: ${{ secrets.BUCKET_REGION }}
+          AWS_S3_UPLOAD_ACCESS_KEY_ID: ${{ secrets.AWS_S3_UPLOAD_ACCESS_KEY_ID_DEV }}
+          AWS_S3_UPLOAD_SECRET_ACCESS_KEY: ${{ secrets.AWS_S3_UPLOAD_SECRET_ACCESS_KEY_DEV }}
       - name: Step 5 - Serverless Deploy PRODUCTION
         if: "${{ github.ref_name == 'master' }}"
         uses: serverless/github-action@v2
@@ -53,3 +56,6 @@ jobs:
           JSREPORT_URL: ${{ secrets.JSREPORT_URL }}
           JSREPORT_CERTIFICATE_SHORT_ID: ${{ secrets.JSREPORT_CERTIFICATE_SHORT_ID }}
           BUCKET_NAME: ${{ secrets.BUCKET_NAME_PROD }}
+          BUCKET_REGION: ${{ secrets.BUCKET_REGION }}
+          AWS_S3_UPLOAD_ACCESS_KEY_ID: ${{ secrets.AWS_S3_UPLOAD_ACCESS_KEY_ID_PROD }}
+          AWS_S3_UPLOAD_SECRET_ACCESS_KEY: ${{ secrets.AWS_S3_UPLOAD_SECRET_ACCESS_KEY_PROD }}
