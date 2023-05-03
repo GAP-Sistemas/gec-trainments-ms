@@ -57,5 +57,7 @@ export const signAndStructureData = async (trainmentInfo: ITrainment, getSignedU
     return data;
   }
 
-  return dataCreator();
+  const result = await dataCreator()
+
+  return result;
 }
