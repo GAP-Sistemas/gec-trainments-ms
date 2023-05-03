@@ -35,11 +35,11 @@ const generateCertificate: SQSHandler = async (event: SQSEvent, context: Context
 
     // GET TRAINMENT INVO
     const trainmentData = await getTrainment(new ObjectId(employeeId), new ObjectId(trainmentId), new ObjectId(tenantId), db);
-    console.log("DATA FROM AGGREGATION:", trainmentData)
+    console.log("DATA FROM AGGREGATION:", JSON.stringify(trainmentData))
 
     // STRUCTURE DATA AND SIGN PHOTOS
     const dataToCertificate = await signAndStructureData(trainmentData, getSignedUrl);
-    console.log("STRUCTURED AND SIGNED DATA:", dataToCertificate)
+    console.log("STRUCTURED AND SIGNED DATA:", JSON.stringify(dataToCertificate))
   
     // GENERATE CERTIFICATES PDF IN JSREPORT  
     
