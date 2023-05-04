@@ -37,7 +37,7 @@ describe('signAndStructureData', () => {
         expirationDate: 'Válido até 02/mai/2023',
         documentEmployee: 'document',
         site: 'site',
-        workload: '0 horas e 30 minutos',
+        workload: '30 minutos.',
         scheduledTime: '02/mai/2023',
         description: 'description',
         instructors: [{
