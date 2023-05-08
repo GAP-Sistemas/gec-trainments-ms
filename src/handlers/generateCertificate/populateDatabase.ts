@@ -14,6 +14,16 @@ export const populateDatabase = async (db: Db, file: IFile, employeeId: string, 
 
   const { insertedId } = await db.collection('files').insertOne(file)
 
+  await db.collection('trainments').updateOne(
+    {
+      _id: new ObjectId(trainmentId),
+      "attendance.employee": new ObjectId(employeeId)
+    },
+    {
+      $set: { "attendance.$.certificate": new ObjectId(insertedId) }
+    }
+  )
+
   const updateResult = await db.collection("employees").updateOne(
     { 
       _id: new ObjectId(employeeId),
