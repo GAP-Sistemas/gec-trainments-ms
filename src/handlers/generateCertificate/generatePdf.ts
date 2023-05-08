@@ -40,7 +40,7 @@ export const generatePdf = async (dataToCertificate: IData) => {
   const shortIdJSReport = process.env.JSREPORT_CERTIFICATE_SHORT_ID
   const bodyBuffer = await jsReportLambda(shortIdJSReport, dataToCertificate)
 
-  const name = `${dataToCertificate.employee.name}-certificate-${moment().format('DD-MM-YYYY HH:mm')}-${shortid.generate()}.pdf`
+  const name = `${dataToCertificate.employee.name}-certificate-${dataToCertificate.trainment.documentEmployee}-${shortid.generate()}.pdf`
   const folder = 'certificates'
 
   return {
