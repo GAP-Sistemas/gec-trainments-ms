@@ -3,7 +3,7 @@ import { ObjectId, Db } from 'mongodb';
 import { populateDatabase } from '../../handlers/generateCertificate/populateDatabase';
 
 describe('populateDatabase', () => {
-  test('should insert file and update employee documents', async () => {
+  test('should insert file and update employee documents and trainments', async () => {
     const file = {
       tenant: new ObjectId(),
       name: 'test.pdf',
@@ -36,6 +36,16 @@ describe('populateDatabase', () => {
       {
         $push: { 'documents.$.files': new ObjectId("5d49e06505d1aa3ed4fb4964") },
       },
+    );
+
+    expect(mockCollection.updateOne).toHaveBeenCalledWith(
+      {
+        _id: new ObjectId(trainmentId),
+        "attendance.employee": new ObjectId(employeeId),
+      },
+      {
+        $set: { "attendance.$.certificate": new ObjectId("5d49e06505d1aa3ed4fb4964") }
+      }
     );
   });
 });

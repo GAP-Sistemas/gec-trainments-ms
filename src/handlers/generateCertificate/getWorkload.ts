@@ -6,12 +6,8 @@ interface IScheduledDate {
 }
 
 export const getWorkload = (scheduledTime: IScheduledDate) => {
-  let totalTime = 0;
-
   const to = new Date(scheduledTime.to);
   const from = new Date(scheduledTime.from);
   const intervalo = to.getTime() - from.getTime();
-  totalTime += intervalo;
-
-  return getConvertedTime(totalTime);
+  return getConvertedTime(intervalo);
 }
