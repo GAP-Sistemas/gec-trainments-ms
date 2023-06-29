@@ -1,10 +1,12 @@
 import { map as asyncMap } from "p-iteration";
 import moment from "moment";
 import 'moment/locale/pt-br';
-import { getWorkload } from "./getWorkload";
+// import { getWorkload } from "./getWorkload";
 import { getExpiration } from "./getExpiration";
 import { IData } from "./generatePdf";
 import { ITrainment } from "./getTrainment";
+import { getConvertedTime } from "./getConvertedTime";
+import { getConvertedDates } from "./getConvertedDates";
 
 interface Instructor {
   name: string;
@@ -30,10 +32,8 @@ export const signAndStructureData = async (trainmentInfo: ITrainment, getSignedU
   const dataCreator = async (trainmentInfo: ITrainment) =>  {
     const { attendance, tenant, instructors, ...trainmentData } = trainmentInfo
 
-    const newFrom = moment(trainmentData.scheduledTime.from).locale('pt-br').format('DD/MMM/YYYY');
-    const newTo = moment(trainmentData.scheduledTime.to).locale('pt-br').format('DD/MMM/YYYY');
-    const scheduledTime = newFrom === newTo ? newFrom : `${newFrom} até ${newTo}`
-    const workload = getWorkload(trainmentData.scheduledTime);
+    const scheduledTime = getConvertedDates(trainmentData.scheduledTime)
+    const workload = getConvertedTime(trainmentData.workload);
 
     const data =  {
       employee: {

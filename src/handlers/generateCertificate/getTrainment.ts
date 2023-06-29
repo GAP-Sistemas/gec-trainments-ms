@@ -5,7 +5,8 @@ export interface ITrainment {
   expirationDate: Date;
   documentEmployee: { name: string }[];
   site: { name: string }[];
-  scheduledTime: { to: Date; from: Date };
+  scheduledTime: { to: Date; from: Date }[];
+  workload: number;
   description: string;
   attendance: {
     employee: { _id: string; name: string; cpf: string }[];
@@ -67,13 +68,15 @@ export const getTrainment = async (employeeId: ObjectId, trainmentId: ObjectId, 
         description: { $first: "$description" },
         attendance: { $addToSet: "$attendance" },
         instructors: { $addToSet: "$instructors" },
-        tenant: { $addToSet: "$tenant" }
+        tenant: { $addToSet: "$tenant" },
+        workload: { $first: '$workload' }
       }
     },
     {
       $project: {
         _id: 1,
         expirationDate: 1,
+        workload: 1,
         "documentEmployee.name": 1,
         "site.name": 1,
         "scheduledTime": 1,

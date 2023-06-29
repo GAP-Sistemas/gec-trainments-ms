@@ -21,25 +21,26 @@ const generateCertificate: SQSHandler = async (event: SQSEvent, context: Context
   const record = event.Records[0];
   const body = JSON.parse(record.body);
   const { employeeId, trainmentId, tenantId } = body.data;
+  
+  // const employeeId = "64899d631a3b3e5bfac05d86";
+  // const tenantId = "5d49e06505d1aa3ed4fb4964";
+  // const trainmentId = "649db26be0f7c0cd008ae85c";
+  
   console.log("tenantId:", tenantId)
   console.log("trainmentId:", trainmentId)
   console.log("employeeId:", employeeId)
 
-  // const tenantId = "5d49e06505d1aa3ed4fb4964";
-  // const trainmentId = "643ecd37e879fd435ab33fe0";
-  // const employeeId = "6398e4ae146ec20a48c9b475";
 
-  
   try {
     const db = await connectToDatabase();
 
-    // GET TRAINMENT INVO
+    // GET TRAINMENT INFO
     const trainmentData = await getTrainment(new ObjectId(employeeId), new ObjectId(trainmentId), new ObjectId(tenantId), db);
 
     // STRUCTURE DATA AND SIGN PHOTOS
     const dataToCertificate = await signAndStructureData(trainmentData, getSignedUrl);
   
-    // GENERATE CERTIFICATES PDF IN JSREPORT  
+    // GENERATE CERTIFICATES PDF IN JS REPORT  
     
     const { bodyBuffer, name, folder } = await generatePdf(dataToCertificate);
 

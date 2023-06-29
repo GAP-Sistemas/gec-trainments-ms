@@ -1,9 +1,8 @@
-export const  getConvertedTime = (tempoTotalEmMilissegundos: number)=>  {
-  const milissegundosPorMinuto = 60000;
-  const milissegundosPorHora = 3600000;
+export const  getConvertedTime = (tempoTotalEmMinutos: number)=>  {
+  const minutosPorHora = 60;
 
-  const horas = Math.floor(tempoTotalEmMilissegundos / milissegundosPorHora);
-  const minutos = Math.floor((tempoTotalEmMilissegundos % milissegundosPorHora) / milissegundosPorMinuto);
+  const horas = Math.floor(tempoTotalEmMinutos / minutosPorHora);
+  const minutos = tempoTotalEmMinutos % minutosPorHora;
 
   let result = ``
   
